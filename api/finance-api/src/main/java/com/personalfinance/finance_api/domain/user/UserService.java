@@ -2,7 +2,7 @@ package com.personalfinance.finance_api.domain.user;
 
 import com.personalfinance.finance_api.domain.user.dto.SignupRequest;
 import com.personalfinance.finance_api.domain.user.dto.UserResponse;
-import org.springframework.security.crypto.password.passwordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
