@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/finance_dev
+    username: finance_user
+    password: finance_pass
+  jpa:
+    hibernate:
+      ddl-auto: update   # later: validate (with Flyway)
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
