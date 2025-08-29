@@ -24,8 +24,19 @@
     .btn { 
         @apply w-full rounded-lg py-2.5 font-medium transition text-white; 
     }
+
+    .alert {
+        @apply mt-4 text-sm p-3 rounded-lg;
+    }
+
+    .alert-success { 
+        @apply bg-emerald-900/30 text-emerald-200; 
+    }
+
+    .alert-error { 
+        @apply bg-rose-900/30 text-rose-200; }
 }
 
 body {
-    @apply bg-[#0a0f18];
+    @apply bg-[#0f1623];
 }

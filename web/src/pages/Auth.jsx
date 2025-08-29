@@ -13,6 +13,9 @@ export default function Auth() {
     const [signupEmail, setSignupEmail] = useState("");
     const [signupPassword, setSignupPassword] = useState("");
 
+    const passwordStrength = signupPassword.length === 0 ? 0 : signupPassword.length < 8 ? 25 :
+    /(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])/.test(signupPassword) ? 100 : 60;
+
     async function handleSignUp(e) {
         e.preventDefault();
         setSignupMsg(null);
@@ -62,7 +65,7 @@ export default function Auth() {
                                 type={showSignupPassword ? "text" : "password"}
                                 value={signupPassword} 
                                 onChange={(e) => setSignupPassword(e.target.value)}
-                                placeholder="At least 8 characters"
+                                placeholder="Password"
                                 required
                                 />
                                 <button
@@ -73,10 +76,36 @@ export default function Auth() {
                                     {showSignupPassword ? "Hide" : "Show"}
                                 </button>
                             </div>
+
+                            <div className="mt-2 flex items-center space-x-2 text-sm">
+                                {signupPassword.length >= 8 ? (
+                                    <span className="text-green-500">✅</span>
+                                ) : (
+                                    <span className="text-red-500">❌</span>
+                                )}
+                                <span className={ signupPassword.length >= 8 ? "text-green-500" : "text-red-500" }>
+                                    At least 8 characters
+                                </span>
+                            </div>
+
+                            <div className="mt-2 flex items-center gap-3">
+                                <div className="password-bar">
+                                    <div className="password-fill" style={{ width: `${passwordStrength}%` }} />
+                                </div>
+                            </div>
+                            <span className="text-xs text-slate-300">
+                                    {passwordStrength === 100 ? "Strong" : passwordStrength >= 60 ? "Medium" : "Weak"}
+                                </span>
                         </div>
 
                         <button className="btn !bg-[#1552ad]" type="submit">Sign up</button>
                     </form>
+
+                    {signupMsg && (
+                        <p className={`alert ${signupMsg.type === "success" ? "alert-success" : "alert-error"}`}>
+                            {signupMsg.text}
+                        </p>
+                    )}
                 </div>
             </div>
         </div>
