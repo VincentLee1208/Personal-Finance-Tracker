@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { api } from "../lib/api";
+import { useAuth } from "../auth/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 import "../styles/shared.css";
 import "../styles/Auth.css";
 
 export default function Auth() {
+    const navigate = useNavigate();
+    const { setAuthedUser, isAuthed, booting } = useAuth();
+
     const [showSigninPassword, setShowSigninPassword] = useState(false);
     const [showSignupPassword, setShowSignupPassword] = useState(false);
+    const [signinMsg, setSigninMsg] = useState(null);
     const [signupMsg, setSignupMsg] = useState(null);
+
+    useEffect(() => {
+        if(!booting && isAuthed) {
+            navigate("/dashboard", { replace: true });
+        }
+    }, [booting, isAuthed, navigate]);
 
     // sign in states
     const [signinEmail, setSigninEmail] = useState("");
@@ -15,6 +27,17 @@ export default function Auth() {
 
     async function handleSignIn(e) {
         e.preventDefault();
+        try {
+            const { data } = await api.post("/auth/login", {
+                email: signinEmail, 
+                password: signinPassword
+            });
+
+            setAuthedUser(data);
+            navigate("/dashboard");
+        } catch(e) {
+            setSigninMsg({ type: "error", text: e.response?.data?.error || "Sign in failed" });
+        }
     }
 
     // sign up states
@@ -37,7 +60,7 @@ export default function Auth() {
             setSignupMsg({ type: "success", text: `Account created for ${data.email}`});
             setSignupPassword("");
         } catch (e) {
-            setSignupMsg({ type: "error", text: e.response?.data?.error || "Signup failed"});
+            setSignupMsg({ type: "error", text: e.response?.data?.error || "Sign up failed"});
         }
     }
 
@@ -46,7 +69,7 @@ export default function Auth() {
             <div className="auth-grid">
                 {/* Sign in */}
                 <div className="card">
-                    <h2 className="title">Sign in</h2>
+                    <h2 className="title">Log in</h2>
                     <form onSubmit={handleSignIn} className="form">
                         <div className="field">
                             <label className="label">Email</label>
@@ -83,6 +106,12 @@ export default function Auth() {
 
                         <button className="btn !bg-[#1552ad]" type="submit">Sign in</button>
                     </form> 
+
+                    {signinMsg && (
+                        <p className={"alert alert-error"}>
+                            {signinMsg.text}
+                        </p>
+                    )}
                 </div>
 
                 {/* Sign up */}
