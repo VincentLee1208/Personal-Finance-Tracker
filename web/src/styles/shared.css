@@ -1,42 +1,88 @@
-@reference "tailwindcss";
+@import "tailwindcss";
 
 @layer components {
     .card {
-        @apply rounded-2xl backdrop-blur p-8 shadow-lg border;
+        border-radius: 1rem;               /* rounded-2xl */
+        backdrop-filter: blur(8px);        /* backdrop-blur */
+        padding: 2rem;                     /* p-8 */
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1),
+                    0 4px 6px -4px rgba(0,0,0,0.1);  /* shadow-lg */
+        border: 1px solid rgba(255,255,255,0.05); /* border border-white/5 */
+        background-color: #121924;         /* bg-[#121924] */
+        color: white;                      /* text-white */
     }
+
     .title {
-        @apply text-3xl font-semibold mb-6;
+        font-size: 1.875rem;  /* text-3xl */
+        font-weight: 600;     /* font-semibold */
+        margin-bottom: 1.5rem; /* mb-6 */
+        color: white;          /* text-white */
     }
 
     .field {
-        @apply space-y-1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem; /* space-y-1 */
     }
 
     .label {
-        @apply block text-sm;
+        display: block;
+        font-size: 0.875rem; /* text-sm */
+        color: rgb(203 213 225); /* text-slate-300 */
+        font-weight: 300;    /* font-light */
     }
 
     .input {
-        @apply w-full border rounded-lg px-3 py-2 outline-none
-           focus:ring-2 focus:ring-indigo-500;
+        width: 100%; 
+        border-radius: 0.5rem;              /* rounded-lg */
+        border: 1px solid rgba(255,255,255,0.1); /* border-white/10 */
+        background-color: #0f1720;          /* bg-[#0f1720] */
+        color: white;                       /* text-white */
+        padding: 0.5rem 0.75rem;            /* py-2 px-3 */
+        outline: none;
+    }
+    .input:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px #6366f1; /* focus:ring-2 focus:ring-indigo-500 */
     }
 
-    .btn { 
-        @apply w-full rounded-lg py-2.5 font-medium transition text-white; 
+    .btn {
+        width: 100%;
+        border-radius: 0.5rem;   /* rounded-lg */
+        padding: 0.625rem 0;     /* py-2.5 */
+        font-weight: 500;        /* font-medium */
+        transition: all 0.2s;    /* transition */
+        color: white;            /* text-white */
+        background-color: #1552ad; /* bg-[#1552ad] */
     }
 
     .alert {
-        @apply mt-4 text-sm p-3 rounded-lg;
+        margin-top: 1rem;        /* mt-4 */
+        font-size: 0.875rem;     /* text-sm */
+        padding: 0.75rem;        /* p-3 */
+        border-radius: 0.5rem;   /* rounded-lg */
     }
 
-    .alert-success { 
-        @apply bg-emerald-900/30 text-emerald-200; 
+    .alert-success {
+        background-color: rgba(6, 78, 59, 0.3); /* bg-emerald-900/30 */
+        color: rgb(167 243 208);               /* text-emerald-200 */
     }
 
-    .alert-error { 
-        @apply bg-rose-900/30 text-rose-200; }
+    .alert-error {
+        background-color: rgba(127, 29, 29, 0.3); /* bg-rose-900/30 */
+        color: rgb(254 205 211);                 /* text-rose-200 */
+    }
+}
+
+:root {
+    font-family: system-ui, Inter, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+html, #root, body {
+    height: 100%;
 }
 
 body {
-    @apply bg-[#0f1623];
+    background-color: #0f1623;
+    margin: 0;
 }

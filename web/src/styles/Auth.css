@@ -1,16 +1,63 @@
-@reference "tailwindcss";
-
 @layer components {
-  .auth-page {
-    @apply min-h-screen bg-[#0f1623] text-slate-100 flex items-center justify-center px-4;
-  }
-  .auth-grid {
-    @apply w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6;
-  }
-  .password-bar {
-    @apply h-1.5 w-full bg-white/10 rounded mt-1;
-  }
-  .password-fill {
-    @apply h-1.5 rounded bg-orange-400;
-  }
+    .auth-page {
+        min-height: 100vh;                 /* min-h-screen */
+        color: rgb(241 245 249);           /* text-slate-100 */
+        display: flex;                     /* flex */
+        align-items: center;               /* items-center */
+        justify-content: center;           /* justify-center */
+        padding-left: 1rem;                /* px-4 */
+        padding-right: 1rem;
+    }
+
+    .auth-grid {
+        width: 100%;                       /* w-full */
+        max-width: 64rem;                  /* max-w-5xl */
+        display: grid;                     /* grid */
+        grid-template-columns: 1fr;        /* grid-cols-1 */
+        gap: 1.5rem;                       /* gap-6 */
+    }
+    @media (min-width: 768px) {          /* md:grid-cols-2 */
+        .auth-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .password-bar {
+        height: 0.375rem;                  /* h-1.5 */
+        width: 100%;                       /* w-full */
+        background-color: rgba(255,255,255,0.1); /* bg-white/10 */
+        border-radius: 0.25rem;            /* rounded */
+        margin-top: 0.25rem;               /* mt-1 */
+    }
+
+    .password-fill {
+        height: 0.375rem;                  /* h-1.5 */
+        border-radius: 0.25rem;            /* rounded */
+        background-color: rgb(251 146 60); /* bg-orange-400 */
+    }
+
+    .button {
+        position: absolute;                /* absolute */
+        top: 0; bottom: 0;                 /* inset-y-0 */
+        right: 0;                          /* right-0 */
+        display: flex;                     /* flex */
+        align-items: center;               /* items-center */
+        background-color: transparent;     /* !bg-transparent */
+        color: rgb(203 213 225);           /* text-slate-300 */
+        border: none;                      /* !border-none */
+        outline: none;                     /* !outline-none */
+        font-weight: 300;                  /* !font-light */
+        transition: color 0.2s;            /* hover:text-white */
+    }
+    .button:hover {
+        color: white;
+    }
+
+    .form {
+        display: flex;                     /* space-y-5 → flex column + gap */
+        flex-direction: column;
+        gap: 1.25rem;                      /* 1.25rem = 20px */
+    }
 }
+
+
