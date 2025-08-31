@@ -1,76 +1,91 @@
 @import "tailwindcss";
 
 @layer components {
-    .card {
-        border-radius: 1rem;               /* rounded-2xl */
-        backdrop-filter: blur(8px);        /* backdrop-blur */
-        padding: 2rem;                     /* p-8 */
+    .page-card {
+        max-width: 1400px;
+        max-height: 1000px;
+        height: 80%;
+        width: 90%;
+        margin: 2rem auto;  
+        background-color: #121924;
+        border-radius: 1rem;     
+        padding: 1rem;           
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); 
+        color: white;
+        display: grid;
+        grid-template-columns: 240px 1fr;
+    }
+
+    .auth-card {
+        border-radius: 1rem;               
+        backdrop-filter: blur(8px);        
+        padding: 2rem;                    
         box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1),
-                    0 4px 6px -4px rgba(0,0,0,0.1);  /* shadow-lg */
-        border: 1px solid rgba(255,255,255,0.05); /* border border-white/5 */
-        background-color: #121924;         /* bg-[#121924] */
-        color: white;                      /* text-white */
+                    0 4px 6px -4px rgba(0,0,0,0.1);  
+        border: 1px solid rgba(255,255,255,0.05); 
+        background-color: #121924;         
+        color: white;                      
     }
 
     .title {
-        font-size: 1.875rem;  /* text-3xl */
-        font-weight: 600;     /* font-semibold */
-        margin-bottom: 1.5rem; /* mb-6 */
-        color: white;          /* text-white */
+        font-size: 1.875rem; 
+        font-weight: 600;     
+        margin-bottom: 1.5rem; 
+        color: white;          
     }
 
     .field {
         display: flex;
         flex-direction: column;
-        gap: 0.25rem; /* space-y-1 */
+        gap: 0.25rem; 
     }
 
     .label {
         display: block;
-        font-size: 0.875rem; /* text-sm */
-        color: rgb(203 213 225); /* text-slate-300 */
-        font-weight: 300;    /* font-light */
+        font-size: 0.875rem; 
+        color: rgb(203 213 225); 
+        font-weight: 300;    
     }
 
     .input {
         width: 100%; 
-        border-radius: 0.5rem;              /* rounded-lg */
-        border: 1px solid rgba(255,255,255,0.1); /* border-white/10 */
-        background-color: #0f1720;          /* bg-[#0f1720] */
-        color: white;                       /* text-white */
-        padding: 0.5rem 0.75rem;            /* py-2 px-3 */
+        border-radius: 0.5rem;             
+        border: 1px solid rgba(255,255,255,0.1); 
+        background-color: #0f1720;       
+        color: white;                      
+        padding: 0.5rem 0.75rem;         
         outline: none;
     }
     .input:focus {
         outline: none;
-        box-shadow: 0 0 0 2px #6366f1; /* focus:ring-2 focus:ring-indigo-500 */
+        box-shadow: 0 0 0 2px #6366f1; 
     }
 
     .btn {
         width: 100%;
-        border-radius: 0.5rem;   /* rounded-lg */
-        padding: 0.625rem 0;     /* py-2.5 */
-        font-weight: 500;        /* font-medium */
-        transition: all 0.2s;    /* transition */
-        color: white;            /* text-white */
-        background-color: #1552ad; /* bg-[#1552ad] */
+        border-radius: 0.5rem;   
+        padding: 0.625rem 0;     
+        font-weight: 500;        
+        transition: all 0.2s;    
+        color: white;            
+        background-color: #1552ad; 
     }
 
     .alert {
-        margin-top: 1rem;        /* mt-4 */
-        font-size: 0.875rem;     /* text-sm */
-        padding: 0.75rem;        /* p-3 */
-        border-radius: 0.5rem;   /* rounded-lg */
+        margin-top: 1rem;       
+        font-size: 0.875rem;     
+        padding: 0.75rem;       
+        border-radius: 0.5rem;   
     }
 
     .alert-success {
-        background-color: rgba(6, 78, 59, 0.3); /* bg-emerald-900/30 */
-        color: rgb(167 243 208);               /* text-emerald-200 */
+        background-color: rgba(6, 78, 59, 0.3); 
+        color: rgb(167 243 208);               
     }
 
     .alert-error {
-        background-color: rgba(127, 29, 29, 0.3); /* bg-rose-900/30 */
-        color: rgb(254 205 211);                 /* text-rose-200 */
+        background-color: rgba(127, 29, 29, 0.3); 
+        color: rgb(254 205 211);                 
     }
 }
 

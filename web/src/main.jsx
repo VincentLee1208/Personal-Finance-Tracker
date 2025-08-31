@@ -3,12 +3,27 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AuthProvider } from './auth/AuthContext';
 import Auth from './pages/Auth.jsx';
-import Dashboard from './pages/Dashboard.jsx';
 import ProtectedRoute from './routes/ProtectedRoute.jsx';
+
+import Layout from './pages/Layout.jsx';
+import Dashboard from './pages/Dashboard.jsx';
+import Transactions from './pages/Transactions.jsx';
+import Accounts from './pages/Accounts.jsx';
 
 const router = createBrowserRouter([
   { path: "/", element: <Auth /> },
-  { path: "/dashboard", element: <ProtectedRoute><Dashboard /></ProtectedRoute> }
+  {
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
+    children:[
+      { path: "/dashboard", element: <Dashboard /> },
+      { path: "/transactions", element: <Transactions /> },
+      { path: "/accounts", element: <Accounts /> },
+    ],
+  },
 ]);
 
 createRoot(document.getElementById('root')).render(

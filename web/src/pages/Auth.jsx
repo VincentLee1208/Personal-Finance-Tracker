@@ -68,7 +68,7 @@ export default function Auth() {
         <div className="auth-page">
             <div className="auth-grid">
                 {/* Sign in */}
-                <div className="card">
+                <div className="auth-card">
                     <h2 className="title">Log in</h2>
                     <form onSubmit={handleSignIn} className="form">
                         <div className="field">
@@ -115,7 +115,7 @@ export default function Auth() {
                 </div>
 
                 {/* Sign up */}
-                <div className="card bg-[#121924] border-white/5">
+                <div className="auth-card">
                     <h2 className="title text-white">Sign up</h2>
                     <form onSubmit={handleSignUp} className="space-y-5">
                         <div className="field text-white">
