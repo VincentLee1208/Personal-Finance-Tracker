@@ -5,6 +5,8 @@ import com.personalfinance.finance_api.domain.user.dto.LoginRequest;
 import com.personalfinance.finance_api.domain.user.dto.UserResponse;
 
 import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +26,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public UserResponse login(@Valid @RequestBody LoginRequest req) {
-        return userService.login(req);
+    public UserResponse login(@Valid @RequestBody LoginRequest req, HttpSession session) {
+        var user = userService.login(req);
+
+        session.setAttribute("userId", user.getId());
+        return user;
     }
 }
