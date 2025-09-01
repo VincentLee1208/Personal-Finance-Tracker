@@ -6,8 +6,6 @@ const active = "bg-white/10 text-white";
 export default function Sidebar() {
     return (
         <aside className="w-56 bg-[#121924] border-r border-white/5 flex flex-col p-4">
-            <h1 className="text-2xl font-bold mb-10">Personal Finance</h1>
-
             <nav className="flex flex-col gap-2">
                 <NavLink to="/dashboard" className={({isActive}) => `${link} ${isActive ? active : ""}`}>Dashboard</NavLink>
                 <NavLink to="/transactions" className={({isActive}) => `${link} ${isActive ? active : ""}`}>Transactions</NavLink>
