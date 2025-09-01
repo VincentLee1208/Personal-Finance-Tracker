@@ -58,7 +58,14 @@ export default function Auth() {
                 password: signupPassword
             });
             setSignupMsg({ type: "success", text: `Account created for ${data.email}`});
+            const { data: loginData } = await api.post("/auth/login", {
+                email: signupEmail, 
+                password: signupPassword
+            });
+
+            setAuthedUser(loginData);
             setSignupPassword("");
+            navigate("/dashboard");
         } catch (e) {
             setSignupMsg({ type: "error", text: e.response?.data?.error || "Sign up failed"});
         }
