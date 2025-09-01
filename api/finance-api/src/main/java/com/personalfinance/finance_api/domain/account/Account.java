@@ -1,9 +1,10 @@
 package com.personalfinance.finance_api.domain.account;
 
-import com.personalfinance.finance_api.domain.user;
+import com.personalfinance.finance_api.domain.user.User;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(
@@ -38,7 +39,7 @@ public class Account {
     private BigDecimal currentBalance = BigDecimal.ZERO;
 
     @Column(name = "institution_code", length = 40)
-    private String institutionCode
+    private String institutionCode;
 
     @Column(name = "created_at", nullable = false, columnDefinition = "timestamp with time zone")
     private OffsetDateTime createdAt;
@@ -88,6 +89,6 @@ public class Account {
 
     @Override
     public int hashCode() { 
-        return Objects.hashCode(id); 
+        return  Objects.hashCode(id); 
     }
 }

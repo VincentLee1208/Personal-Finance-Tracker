@@ -1,5 +1,7 @@
+package com.personalfinance.finance_api.domain.account;
+
 public enum AccountType {
-    CHECKING,
+    CHEQUING,
     SAVINGS,
     HISA,
     CREDIT_CARD,
