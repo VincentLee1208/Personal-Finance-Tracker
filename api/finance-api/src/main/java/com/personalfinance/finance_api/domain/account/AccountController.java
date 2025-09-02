@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @RequestMapping("/accounts")
@@ -23,8 +24,6 @@ public class AccountController {
     }
 
     private User getSessionUser(HttpSession session) {
-        System.out.println("Incoming session id: " + session.getId());
-        System.out.println("Stored userId: " + session.getAttribute("userId"));
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
@@ -37,5 +36,11 @@ public class AccountController {
     public AccountResponse createAccount(@RequestBody AccountRequest req, HttpSession session) {
         User user = getSessionUser(session);
         return accountService.createAccount(req, user);
+    }
+
+    @GetMapping
+    public List<AccountResponse> getAccounts(HttpSession session) {
+        User user = getSessionUser(session);
+        return accountService.getAccountsByUser(user);
     }
 }

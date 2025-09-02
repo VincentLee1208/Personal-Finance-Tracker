@@ -12,8 +12,6 @@
         padding: 1rem;           
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); 
         color: white;
-        display: flex;
-        flex-direction: column;
     }
 
     .auth-card {
@@ -64,7 +62,7 @@
     .btn {
         width: 100%;
         border-radius: 0.5rem;   
-        padding: 0.625rem 0;     
+        padding: 0.625rem ;     
         font-weight: 500;        
         transition: all 0.2s;    
         color: white;            

@@ -3,10 +3,10 @@ import { NavLink } from "react-router-dom";
 const link = "flex items-center gap-3 px-2 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5";
 const active = "bg-white/10 text-white";
 
-export default function Sidebar() {
+export default function Sidebar({ className }) {
     return (
-        <aside className="w-56 bg-[#121924] border-r border-white/5 flex flex-col p-4">
-            <nav className="flex flex-col gap-2">
+        <aside className={`bg-[#161e2c] p-4 ${className}`}>
+            <nav className="space-y-4">
                 <NavLink to="/dashboard" className={({isActive}) => `${link} ${isActive ? active : ""}`}>Dashboard</NavLink>
                 <NavLink to="/transactions" className={({isActive}) => `${link} ${isActive ? active : ""}`}>Transactions</NavLink>
                 <NavLink to="/accounts" className={({isActive}) => `${link} ${isActive ? active : ""}`}>Accounts</NavLink>
