@@ -1,19 +1,21 @@
 import { useState , useEffect } from "react";
 import { api } from "../lib/api";
 import { useOutletContext } from "react-router-dom";
+import { FaTrash, FaEdit } from "react-icons/fa";
 import Modal from "../components/Modal";
 import AddAccountForm from "../components/AddAccountForm";
+import DeleteAccountForm from "../components/DeleteAccountForm";
 
 import "../styles/shared.css";
 
 export default function Accounts() {
     const [accounts, setAccounts] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const { setTopbarConfig } = useOutletContext();
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-    function handleCreateAccount(data) {
-        setShowModal(false);
-    }
+    const [deletingAccount, setDeletingAccount] = useState(null);
+    const { setTopbarConfig } = useOutletContext();
 
     useEffect(() => {
         api.get("/accounts").then(({ data }) => setAccounts(data));
@@ -22,21 +24,37 @@ export default function Accounts() {
     useEffect(() => {
         setTopbarConfig({
             children: (
-                <button className="btn" onClick={() => setShowModal(true)}>
+                <button className="btn cursor-pointer" onClick={() => setShowAddModal(true)}>
                     +Add Account
                 </button>
             )
         });
     }, [setTopbarConfig]);
 
+    function handleDelete(account) {
+        setDeletingAccount(account);
+        setShowDeleteModal(true);
+    }
 
     return (
             <div className="auth-card">
                 <h3 className="text-xl font-semibold mb-4">All Accounts</h3>
 
-                <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+                <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)}>
                     <h3 className="text-xl font-semibold mb-4">Add Account</h3>
-                    <AddAccountForm onClose={() => setShowModal(false)} onSuccess={(newAccount) => setAccounts((prev) => [...prev, newAccount])} />
+                    <AddAccountForm onClose={() => setShowAddModal(false)} onSuccess={(newAccount) => setAccounts((prev) => [...prev, newAccount])} />
+                </Modal>
+
+                <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
+                    <h3 className="text-xl font-semibold mb-4">Delete Account</h3>
+                    <DeleteAccountForm 
+                        onClose={() => setShowDeleteModal(false)} 
+                        onSuccess={() => {
+                            setAccounts((prev) => prev.filter((acc) => acc.id !== deletingAccount.id));
+                            setDeletingAccount(null);
+                        }}
+                        account={deletingAccount}
+                    />
                 </Modal>
                 <table className="w-full text-left border-collapse">
                     <thead>
@@ -46,6 +64,7 @@ export default function Accounts() {
                             <th className="py-2 px-4">Institution</th>
                             <th className="py-2 px-4">Balance</th>
                             <th className="py-2 px-4">Currency</th>
+                            <th className="py-2 px-4">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,6 +75,20 @@ export default function Accounts() {
                                 <td className="py-2 px-4">{account.institutionCode || "-"}</td>
                                 <td className="py-2 px-4">${account.currentBalance}</td>
                                 <td className="py-2 px-4">{account.currencyCode}</td>
+                                <td className="py-2 px-4 flex gap-3">
+                                    <button
+                                        onClick={() => handleEdit(account)}
+                                        className="text-yellow-400 hover:text-yellow-500"
+                                    >
+                                        <FaEdit />
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(account)}
+                                        className="text-red-400 hover:text-red-500"
+                                    >
+                                        <FaTrash />
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
