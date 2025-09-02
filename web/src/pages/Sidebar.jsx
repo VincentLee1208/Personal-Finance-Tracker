@@ -5,7 +5,7 @@ const active = "bg-white/10 text-white";
 
 export default function Sidebar({ className }) {
     return (
-        <aside className={`bg-[#161e2c] p-4 ${className}`}>
+        <aside className={`bg-[#161d2a] p-4 ${className}`}>
             <nav className="space-y-4">
                 <NavLink to="/dashboard" className={({isActive}) => `${link} ${isActive ? active : ""}`}>Dashboard</NavLink>
                 <NavLink to="/transactions" className={({isActive}) => `${link} ${isActive ? active : ""}`}>Transactions</NavLink>

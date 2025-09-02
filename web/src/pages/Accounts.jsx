@@ -44,9 +44,10 @@ export default function Accounts() {
     }
 
     return (
-            <div className="auth-card">
-                <h3 className="text-xl font-semibold mb-4">All Accounts</h3>
+        <div>
+            <h2 className="text-2xl font-semibold mb-4 pl-3">Accounts</h2>
 
+            <div className="auth-card">
                 <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)}>
                     <h3 className="text-xl font-semibold mb-4">Add Account</h3>
                     <AddAccountForm onClose={() => setShowAddModal(false)} onSuccess={(newAccount) => setAccounts((prev) => [...prev, newAccount])} />
@@ -112,5 +113,6 @@ export default function Accounts() {
                     </tbody>
                 </table>
             </div>
+        </div>
     )
 }
