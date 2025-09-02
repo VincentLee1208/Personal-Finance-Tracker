@@ -43,4 +43,10 @@ public class AccountController {
         User user = getSessionUser(session);
         return accountService.getAccountsByUser(user);
     }
+
+    @PutMapping("/{id}")
+    public AccountResponse updateAccount(@PathVariable Long id, @RequestBody AccountRequest req, HttpSession session) {
+        User user = getSessionUser(session);
+        return accountService.updateAccount(id, req, user);
+    }
 }
