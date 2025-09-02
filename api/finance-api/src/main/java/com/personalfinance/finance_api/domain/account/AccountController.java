@@ -49,4 +49,11 @@ public class AccountController {
         User user = getSessionUser(session);
         return accountService.updateAccount(id, req, user);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAccount(@PathVariable Long id, HttpSession session) {
+        User user = getSessionUser(session);
+        accountService.deleteAccount(id, user);
+    }
 }
