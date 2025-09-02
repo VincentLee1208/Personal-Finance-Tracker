@@ -5,6 +5,7 @@ import { FaTrash, FaEdit } from "react-icons/fa";
 import Modal from "../components/Modal";
 import AddAccountForm from "../components/AddAccountForm";
 import DeleteAccountForm from "../components/DeleteAccountForm";
+import EditAccountForm from "../components/EditAccountForm";
 
 import "../styles/shared.css";
 
@@ -15,6 +16,7 @@ export default function Accounts() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const [deletingAccount, setDeletingAccount] = useState(null);
+    const [editingAccount, setEditingAccount] = useState(null);
     const { setTopbarConfig } = useOutletContext();
 
     useEffect(() => {
@@ -36,6 +38,11 @@ export default function Accounts() {
         setShowDeleteModal(true);
     }
 
+    function handleEdit(account) {
+        setEditingAccount(account);
+        setShowEditModal(true);
+    }
+
     return (
             <div className="auth-card">
                 <h3 className="text-xl font-semibold mb-4">All Accounts</h3>
@@ -54,6 +61,17 @@ export default function Accounts() {
                             setDeletingAccount(null);
                         }}
                         account={deletingAccount}
+                    />
+                </Modal>
+
+                <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)}>
+                    <h3 className="text-xl font-semibold mb-4">Edit Account</h3>
+                    <EditAccountForm
+                        onClose={() => setShowEditModal(false)}
+                        onSuccess={(updatedAccount) => {
+                            setAccounts((prev) => prev.map((acc) => acc.id === updatedAccount.id ? updatedAccount : acc));
+                        }}
+                        account={editingAccount}
                     />
                 </Modal>
                 <table className="w-full text-left border-collapse">
