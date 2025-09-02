@@ -9,5 +9,5 @@ export default function ProtectedRoute({ children }) {
         return null;
     }
 
-    return isAuthed ? children : <Naviagate to="/" replace state={{ from: location }} />;
+    return isAuthed ? children : <Navigate to="/" replace state={{ from: location }} />;
 }
