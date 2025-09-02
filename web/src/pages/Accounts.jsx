@@ -1,12 +1,19 @@
 import { useState , useEffect } from "react";
 import { api } from "../lib/api";
 import { useOutletContext } from "react-router-dom";
+import Modal from "../components/Modal";
+import AddAccountForm from "../components/AddAccountForm";
 
 import "../styles/shared.css";
 
 export default function Accounts() {
     const [accounts, setAccounts] = useState([]);
+    const [showModal, setShowModal] = useState(false);
     const { setTopbarConfig } = useOutletContext();
+
+    function handleCreateAccount(data) {
+        setShowModal(false);
+    }
 
     useEffect(() => {
         api.get("/accounts").then(({ data }) => setAccounts(data));
@@ -15,16 +22,22 @@ export default function Accounts() {
     useEffect(() => {
         setTopbarConfig({
             children: (
-                <button className="btn">
+                <button className="btn" onClick={() => setShowModal(true)}>
                     +Add Account
                 </button>
             )
         });
     }, [setTopbarConfig]);
 
+
     return (
             <div className="auth-card">
                 <h3 className="text-xl font-semibold mb-4">All Accounts</h3>
+
+                <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+                    <h3 className="text-xl font-semibold mb-4">Add Account</h3>
+                    <AddAccountForm onClose={() => setShowModal(false)} onSuccess={(newAccount) => setAccounts((prev) => [...prev, newAccount])} />
+                </Modal>
                 <table className="w-full text-left border-collapse">
                     <thead>
                         <tr className="border-b border-white/10">
