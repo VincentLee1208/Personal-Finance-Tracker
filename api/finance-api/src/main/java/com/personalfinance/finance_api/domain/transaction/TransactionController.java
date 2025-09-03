@@ -37,4 +37,10 @@ public class TransactionController {
         User user = getSessionUser(session);
         return transactionService.createTransaction(req, user);
     }
+
+    @GetMapping
+    public List<TransactionResponse> getTransactions(HttpSession session) {
+        User user = getSessionUser(session);
+        return transactionService.getTransactionsByUser(user);
+    }
 }

@@ -25,6 +25,28 @@ public class TransactionService {
         this.accounts = accounts;
     }
 
+    private TransactionResponse toResponse(Transaction t) {
+        Long accountId = (t.getAccount() != null) ? t.getAccount().getId() : null;
+        String accountLabel = (t.getAccount() != null) ? 
+            (t.getAccount().getCustomLabel() != null ? t.getAccount().getCustomLabel() : t.getAccount().getType().name()) 
+            : null;
+        String accountInstitution = (t.getAccount() != null) ?
+            (t.getAccount().getInstitutionCode() != null ? t.getAccount().getInstitutionCode() : "-")
+            : null;
+
+        return new TransactionResponse(
+            t.getId(), 
+            accountId, 
+            accountLabel, 
+            accountInstitution, 
+            t.getCategory(), 
+            t.getDescription(), 
+            t.getAmount(), 
+            t.getDate(), 
+            t.getCreatedAt()
+        );
+    }
+
     @Transactional
     public TransactionResponse createTransaction(TransactionRequest req, User user) {
         Transaction t = new Transaction();
@@ -50,14 +72,12 @@ public class TransactionService {
         }
         transactions.save(t);
 
-        Long accountId = (t.getAccount() != null) ? t.getAccount().getId() : null;
-        String accountLabel = (t.getAccount() != null) ? 
-            (t.getAccount().getCustomLabel() != null ? t.getAccount().getCustomLabel() : t.getAccount().getType().name()) 
-            : null;
-        String accountInstitution = (t.getAccount() != null) ?
-            (t.getAccount().getInstitutionCode() != null ? t.getAccount().getInstitutionCode() : "-")
-            : null;
-        
-        return new TransactionResponse(t.getId(), accountId, accountLabel, accountInstitution, t.getCategory(), t.getDescription(), t.getAmount(), t.getDate(), t.getCreatedAt());
+        return toResponse(t);
+    }
+
+    @Transactional(readOnly = true)
+    public List<TransactionResponse> getTransactionsByUser(User user) {
+        List<Transaction> userTransactions = transactions.findByUserId(user.getId());
+        return userTransactions.stream().map(this::toResponse).toList();
     }
 }
