@@ -21,7 +21,7 @@ public class TransactionRequest {
     private BigDecimal amount = BigDecimal.ZERO;
 
     @Size(max = 80)
-    private String description;
+    private String description = "";
 
     @NotNull(message = "Transaction date is required")
     private LocalDate date;
