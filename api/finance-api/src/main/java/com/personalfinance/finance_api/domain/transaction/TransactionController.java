@@ -49,4 +49,11 @@ public class TransactionController {
         User user = getSessionUser(session);
         return transactionService.getTransactionsByAccount(accountId, user);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTransaction(@PathVariable Long id, HttpSession session) {
+        User user = getSessionUser(session);
+        transactionService.deleteTransaction(id, user);
+    }
 }

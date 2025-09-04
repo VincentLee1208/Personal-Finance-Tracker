@@ -92,4 +92,11 @@ public class TransactionService {
         List<Transaction> accountTransactions = transactions.findByAccountId(accountId);
         return accountTransactions.stream().map(this::toResponse).toList();
     }
+
+    @Transactional
+    public void deleteTransaction(Long transactionId, User user) {
+        Transaction t = transactions.findById(transactionId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Transaction not found"));
+        helper.checkOwner(t, user);
+        transactions.delete(t);
+    }
 }
