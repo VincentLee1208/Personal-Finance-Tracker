@@ -3,6 +3,7 @@ package com.personalfinance.finance_api.domain.account;
 import com.personalfinance.finance_api.domain.account.dto.AccountRequest;
 import com.personalfinance.finance_api.domain.account.dto.AccountResponse;
 import com.personalfinance.finance_api.domain.user.User;
+import com.personalfinance.finance_api.domain.Helper;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +17,11 @@ import java.util.List;
 @Service
 public class AccountService {
     private final AccountRepository accounts;
+    private final Helper helper;
 
-    public AccountService(AccountRepository accounts) {
+    public AccountService(AccountRepository accounts, Helper helper) {
         this.accounts = accounts;
+        this.helper = helper;
     }
 
     @Transactional
@@ -38,7 +41,7 @@ public class AccountService {
     @Transactional(readOnly = true)
     public AccountResponse getAccount(Long accountId, User user) {
         Account a = accounts.findById(accountId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
-        checkOwner(a, user);
+        helper.checkOwner(a, user);
         return new AccountResponse(a.getId(), a.getType(), a.getCustomLabel(), a.getCurrencyCode(), a.getInstitutionCode(), a.getCurrentBalance(), a.getCreatedAt());
     }
 
@@ -51,14 +54,14 @@ public class AccountService {
     @Transactional
     public void deleteAccount(Long accountId, User user) {
         Account a = accounts.findById(accountId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
-        checkOwner(a, user);
+        helper.checkOwner(a, user);
         accounts.delete(a);
     }
 
     @Transactional
     public AccountResponse updateAccount(Long accountId, AccountRequest req, User user) {
         Account a = accounts.findById(accountId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
-        checkOwner(a, user);
+        helper.checkOwner(a, user);
 
         a.setType(req.getType());
         a.setCustomLabel(req.getCustomLabel());
@@ -68,11 +71,5 @@ public class AccountService {
 
         accounts.save(a);
         return new AccountResponse(a.getId(), a.getType(), a.getCustomLabel(), a.getCurrencyCode(), a.getInstitutionCode(), a.getCurrentBalance(), a.getCreatedAt());
-    }
-
-    private void checkOwner(Account a, User user) {
-        if(!a.getUser().getId().equals(user.getId())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not own this account");
-        }
     }
 }

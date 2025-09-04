@@ -5,6 +5,7 @@ import com.personalfinance.finance_api.domain.transaction.dto.TransactionRespons
 import com.personalfinance.finance_api.domain.user.User;
 import com.personalfinance.finance_api.domain.account.Account;
 import com.personalfinance.finance_api.domain.account.AccountRepository;
+import com.personalfinance.finance_api.domain.Helper;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +20,12 @@ import java.util.List;
 public class TransactionService {
     private final TransactionRepository transactions;
     private final AccountRepository accounts;
+    private final Helper helper;
 
-    public TransactionService(TransactionRepository transactions, AccountRepository accounts) {
+    public TransactionService(TransactionRepository transactions, AccountRepository accounts, Helper helper) {
         this.transactions = transactions;
         this.accounts = accounts;
+        this.helper = helper;
     }
 
     private TransactionResponse toResponse(Transaction t) {
@@ -79,5 +82,14 @@ public class TransactionService {
     public List<TransactionResponse> getTransactionsByUser(User user) {
         List<Transaction> userTransactions = transactions.findByUserId(user.getId());
         return userTransactions.stream().map(this::toResponse).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<TransactionResponse> getTransactionsByAccount(Long accountId, User user) {
+        Account a = accounts.findById(accountId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
+        helper.checkOwner(a, user);
+
+        List<Transaction> accountTransactions = transactions.findByAccountId(accountId);
+        return accountTransactions.stream().map(this::toResponse).toList();
     }
 }

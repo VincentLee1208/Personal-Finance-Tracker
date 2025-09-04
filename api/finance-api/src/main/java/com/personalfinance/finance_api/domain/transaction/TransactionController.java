@@ -43,4 +43,10 @@ public class TransactionController {
         User user = getSessionUser(session);
         return transactionService.getTransactionsByUser(user);
     }
+
+    @GetMapping("/accounts/{accountId}")
+    public List<TransactionResponse> getTransactionsByAccount(@PathVariable Long accountId, HttpSession session) {
+        User user = getSessionUser(session);
+        return transactionService.getTransactionsByAccount(accountId, user);
+    }
 }
