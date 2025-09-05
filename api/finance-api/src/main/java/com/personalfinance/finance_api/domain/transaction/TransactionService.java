@@ -45,6 +45,7 @@ public class TransactionService {
             t.getCategory(), 
             t.getDescription(), 
             t.getAmount(), 
+            t.getCurrencyCode(),
             t.getDate(), 
             t.getCreatedAt()
         );
@@ -56,6 +57,7 @@ public class TransactionService {
         t.setUser(user);
         t.setCategory(req.getCategory());
         t.setAmount(req.getAmount());
+        t.setCurrencyCode(req.getCurrencyCode());
         t.setDescription(req.getDescription());
         t.setDate(req.getDate());
 

@@ -20,6 +20,10 @@ public class TransactionRequest {
     @Digits(integer = 19, fraction = 2)
     private BigDecimal amount = BigDecimal.ZERO;
 
+    @NotNull(message = "Currency code is required")
+    @Size(min = 3, max = 3, message = "Currency code must be a 3-letter ISO code")
+    private String currencyCode = "CAD";
+
     @Size(max = 80)
     private String description = "";
 
@@ -34,6 +38,9 @@ public class TransactionRequest {
 
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
+
+    public String getCurrencyCode() { return currencyCode; }
+    public void setCurrencyCode(String currencyCode) { this.currencyCode = currencyCode; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

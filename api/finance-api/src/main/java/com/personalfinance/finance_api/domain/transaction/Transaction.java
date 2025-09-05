@@ -39,6 +39,9 @@ public class Transaction {
     @Column(name = "transaction_amount", nullable = false, precision = 19, scale = 2)
     private BigDecimal amount;
 
+    @Column(name = "transaction_currency_code", nullable = false, length = 3)
+    private String currencyCode = "CAD";
+
     @Column(name = "transaction_description", length = 80)
     private String description;
 
@@ -68,6 +71,9 @@ public class Transaction {
 
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
+
+    public String getCurrencyCode() { return currencyCode; }
+    public void setCurrencyCode(String currencyCode) { this.currencyCode = currencyCode; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

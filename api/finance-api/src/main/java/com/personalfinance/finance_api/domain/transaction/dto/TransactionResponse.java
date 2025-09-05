@@ -14,10 +14,11 @@ public class TransactionResponse {
     private final TransactionCategory category;
     private final String description;
     private final BigDecimal amount;
+    private final String currencyCode;
     private final LocalDate date;
     private final OffsetDateTime createdAt;
 
-    public TransactionResponse(Long id, Long accountId, String accountLabel, String accountInstitution, TransactionCategory category, String description, BigDecimal amount, LocalDate date, OffsetDateTime createdAt) {
+    public TransactionResponse(Long id, Long accountId, String accountLabel, String accountInstitution, TransactionCategory category, String description, BigDecimal amount, String currencyCode, LocalDate date, OffsetDateTime createdAt) {
         this.id = id;
         this.accountId = accountId;
         this.accountLabel = accountLabel;
@@ -25,6 +26,7 @@ public class TransactionResponse {
         this.category = category;
         this.description = description;
         this.amount = amount;
+        this.currencyCode = currencyCode;
         this.date = date;
         this.createdAt = createdAt;
     }
@@ -37,6 +39,7 @@ public class TransactionResponse {
     public TransactionCategory getCategory() { return category; }
     public String getDescription() { return description; }
     public BigDecimal getAmount() { return amount; }
+    public String getCurrencyCode() { return currencyCode; }
     public LocalDate getDate() { return date; }
     public OffsetDateTime getCreatedAt() { return createdAt; }
 }
