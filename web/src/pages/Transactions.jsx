@@ -1,12 +1,25 @@
 import { useState, useEffect } from "react";
 import { api } from "../lib/api";
+import { useOutletContext } from "react-router-dom";
 
 export default function Transactions() {
     const [transactions, setTransactions] = useState([]);
+    const [showAddModal, setShowAddModal] = useState(false);
+    const { setTopbarConfig } = useOutletContext();
 
     useEffect(() => {
         api.get("/transactions").then(({ data }) => setTransactions(data));
     }, []);
+
+    useEffect(() => {
+        setTopbarConfig({
+            children: (
+                <button className="btn cursor-pointer" onClick={() => setShowAddModal(true)}>
+                    +Add Transaction
+                </button>
+            )
+        })
+    }, [setTopbarConfig]);
 
     return (
         <div>

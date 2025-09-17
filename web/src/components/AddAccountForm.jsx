@@ -38,7 +38,7 @@ export default function AddAccountForm({ onSuccess, onClose }) {
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-                <label className="block text-sm mb-3">Type</label>
+                <label className="block text-sm mb-1">Type</label>
                 <select
                     name="type"
                     value={form.type}
@@ -87,6 +87,7 @@ export default function AddAccountForm({ onSuccess, onClose }) {
                         <option value="EUR">EUR</option>
                         <option value="JPY">JPY</option>
                         <option value="CNY">CNY</option>
+                        <option value="NTD">NTD</option>
                     </select>
                 </div>
             </div>

@@ -87,6 +87,7 @@ export default function EditAccountForm({ onSuccess, onClose, account }) {
                         <option value="EUR">EUR</option>
                         <option value="JPY">JPY</option>
                         <option value="CNY">CNY</option>
+                        <option value="NTD">NTD</option>
                     </select>
                 </div>
             </div>
