@@ -33,7 +33,7 @@ public class CurrencyService {
     @Transactional
     public void refreshRates() {
         String base = "CAD";
-        String symbols = "CAD,USD,EUR,JPY,CNY,NTD";
+        String symbols = "CAD,USD,EUR,JPY,CNY";
         String url = "https://currency-conversion-and-exchange-rates.p.rapidapi.com/latest?base=" + base + "&symbols=" + symbols;
 
         var headers = new org.springframework.http.HttpHeaders();
@@ -82,9 +82,19 @@ public class CurrencyService {
 
         ensureRatesAvailable();
 
-        CurrencyRate fromRate = rates.findByCurrencyCodeAndDateFetched(from, date)
+        System.out.println(from);
+        System.out.println(date);
+        System.out.println(to);
+        System.out.println(LocalDate.now());
+
+        LocalDate dateToUse = date;
+        if(!rates.existsByDateFetched(date)) {
+            dateToUse = LocalDate.now();
+        }
+
+        CurrencyRate fromRate = rates.findByCurrencyCodeAndDateFetched(from, dateToUse)
             .orElseThrow(() -> new RuntimeException("No rate for " + from));
-        CurrencyRate toRate = rates.findByCurrencyCodeAndDateFetched(to, date)
+        CurrencyRate toRate = rates.findByCurrencyCodeAndDateFetched(to, dateToUse)
             .orElseThrow(() -> new RuntimeException("No rate for " + to));
 
         BigDecimal amountInCAD = amount.multiply(fromRate.getCurrencyRate());

@@ -5,6 +5,7 @@ import com.personalfinance.finance_api.domain.transaction.dto.TransactionRespons
 import com.personalfinance.finance_api.domain.user.User;
 import com.personalfinance.finance_api.domain.account.Account;
 import com.personalfinance.finance_api.domain.account.AccountRepository;
+import com.personalfinance.finance_api.domain.currency.CurrencyService;
 import com.personalfinance.finance_api.domain.Helper;
 
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -21,11 +23,13 @@ public class TransactionService {
     private final TransactionRepository transactions;
     private final AccountRepository accounts;
     private final Helper helper;
+    private final CurrencyService currencyService;
 
-    public TransactionService(TransactionRepository transactions, AccountRepository accounts, Helper helper) {
+    public TransactionService(TransactionRepository transactions, AccountRepository accounts, Helper helper, CurrencyService currencyService) {
         this.transactions = transactions;
         this.accounts = accounts;
         this.helper = helper;
+        this.currencyService = currencyService;
     }
 
     private TransactionResponse toResponse(Transaction t) {
@@ -61,8 +65,6 @@ public class TransactionService {
         t.setDescription(req.getDescription());
         t.setDate(req.getDate());
 
-        System.out.println(user.getId());
-
         if(req.getAccountId() != null) {
             System.out.println("Looking for accountId=" + req.getAccountId());
             Account account = accounts.findById(req.getAccountId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
@@ -72,6 +74,19 @@ public class TransactionService {
             }
             
             t.setAccount(account);
+
+            BigDecimal absAmount = req.getAmount().abs();
+            BigDecimal convertedAmount = currencyService.convert(absAmount, req.getCurrencyCode(), account.getCurrencyCode(), t.getDate());
+
+            BigDecimal newBalance;
+            if(req.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+                newBalance = account.getCurrentBalance().add(convertedAmount);
+            } else {
+                newBalance = account.getCurrentBalance().subtract(convertedAmount);
+            }
+
+            account.setCurrentBalance(newBalance);
+            accounts.save(account);
         } else {
             t.setAccount(null);
         }
