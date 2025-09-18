@@ -69,9 +69,7 @@ public class TransactionService {
             System.out.println("Looking for accountId=" + req.getAccountId());
             Account account = accounts.findById(req.getAccountId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
             
-            if(!account.getUser().getId().equals(user.getId())) {
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not own this account");
-            }
+            helper.checkOwner(account, user);
             
             t.setAccount(account);
 
@@ -114,6 +112,24 @@ public class TransactionService {
     public void deleteTransaction(Long transactionId, User user) {
         Transaction t = transactions.findById(transactionId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Transaction not found"));
         helper.checkOwner(t, user);
+
+        if(t.getAccount() != null) {
+            Account account = t.getAccount();
+
+            BigDecimal absAmount = t.getAmount().abs();
+            BigDecimal convertedAmount = currencyService.convert(absAmount, t.getCurrencyCode(), account.getCurrencyCode(), t.getDate());
+        
+            BigDecimal newBalance;
+            if(t.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+                newBalance = account.getCurrentBalance().subtract(convertedAmount);
+            } else {
+                newBalance = account.getCurrentBalance().add(convertedAmount);
+            }
+
+            account.setCurrentBalance(newBalance);
+            accounts.save(account);
+        }
+
         transactions.delete(t);
     }
 }
