@@ -4,7 +4,7 @@ import { useOutletContext } from "react-router-dom";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import Modal from "../components/Modal";
 import AddAccountForm from "../components/AddAccountForm";
-import DeleteAccountForm from "../components/DeleteAccountForm";
+import DeleteConfirmForm from "../components/DeleteConfirmForm";
 import EditAccountForm from "../components/EditAccountForm";
 
 import "../styles/shared.css";
@@ -55,13 +55,14 @@ export default function Accounts() {
 
                 <Modal isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
                     <h3 className="text-xl font-semibold mb-4">Delete Account</h3>
-                    <DeleteAccountForm 
-                        onClose={() => setShowDeleteModal(false)} 
+                    <DeleteConfirmForm
+                        resourceName="account"
+                        resourceLabel={deletingAccount?.customLabel || deletingAccount?.type}
+                        deleteUrl={`accounts/${deletingAccount?.id}`}
                         onSuccess={() => {
                             setAccounts((prev) => prev.filter((acc) => acc.id !== deletingAccount.id));
-                            setDeletingAccount(null);
                         }}
-                        account={deletingAccount}
+                        onClose={() => setShowDeleteModal(false)}
                     />
                 </Modal>
 
@@ -92,7 +93,7 @@ export default function Accounts() {
                                 <td className="py-2 px-4">{account.type}</td>
                                 <td className="py-2 px-4">{account.customLabel || "-"}</td>
                                 <td className="py-2 px-4">{account.institutionCode || "-"}</td>
-                                <td className="py-2 px-4">${account.currentBalance}</td>
+                                <td className="py-2 px-4">${Number(account.currentBalance).toFixed(2)}</td>
                                 <td className="py-2 px-4">{account.currencyCode}</td>
                                 <td className="py-2 px-4 flex gap-3">
                                     <button

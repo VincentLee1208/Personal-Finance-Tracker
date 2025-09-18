@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { api } from "../lib/api";
 
-export default function AddTransactionForm({ onSuccess, onClose, accounts }) {
+export default function AddTransactionForm({ accounts, onSuccess, onClose }) {
     const [form, setForm] = useState({
         category: "DINING",
         description: "",
@@ -10,14 +11,29 @@ export default function AddTransactionForm({ onSuccess, onClose, accounts }) {
         accountId: ""
     });
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     function handleChange(e) {
         setForm({ ...form, [e.target.name]: e.target.value });
     }
 
     async function handleSubmit(e) {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
 
-    }
+        try {
+            const { data } = await api.post("/transactions/create", form, {
+                withCredentials: true,
+            });
+            onSuccess(data);
+            onClose();
+        } catch (err) {
+            setError(err.response?.data?.message || "Failed to create transaction");
+        } finally {
+            setLoading(false);
+        }
+    } 
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
