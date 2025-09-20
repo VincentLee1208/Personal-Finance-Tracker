@@ -28,6 +28,21 @@ public class BudgetService {
         this.helper = helper;
     }
 
+    private BudgetResponse toResponse(Budget b) {
+        Long accountId = (b.getAccount() != null) ? b.getAccount().getId() : null;
+        return new BudgetResponse(
+            b.getId(),
+            accountId,
+            b.getCategory(),
+            b.getAmount(),
+            b.getCurrencyCode(),
+            b.getFrequency(),
+            b.isRepeat(),
+            b.getStartDate(),
+            b.isActive()
+        );
+    }
+
     @Transactional
     public BudgetResponse createBudget(BudgetRequest req, User user) {
         Budget b = new Budget();
@@ -63,5 +78,11 @@ public class BudgetService {
             b.getStartDate(),
             b.isActive()
         );
+    }
+
+    @Transactional(readOnly = true)
+    public List<BudgetResponse> getBudgetsByUser(User user) {
+        List<Budget> userBudgets = budgets.findByUserId(user.getId());
+        return userBudgets.stream().map(this::toResponse).toList();
     }
 }

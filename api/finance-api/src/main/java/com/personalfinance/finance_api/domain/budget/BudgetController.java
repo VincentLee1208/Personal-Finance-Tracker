@@ -32,4 +32,10 @@ public class BudgetController {
         User user = helper.getSessionUser(session, users);
         return budgetService.createBudget(req, user);
     }
+
+    @GetMapping
+    public List<BudgetResponse> getBudgets(HttpSession session) {
+        User user = helper.getSessionUser(session, users);
+        return budgetService.getBudgetsByUser(user);
+    }
 }
