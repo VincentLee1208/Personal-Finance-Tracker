@@ -16,8 +16,9 @@ public class BudgetResponse {
     private final boolean repeat;
     private final LocalDate startDate;
     private final boolean active;
+    private final BigDecimal spent;
 
-    public BudgetResponse(Long id, Long accountId, TransactionCategory category, BigDecimal amount, String currencyCode, BudgetFrequency frequency, boolean repeat, LocalDate startDate, boolean active) {
+    public BudgetResponse(Long id, Long accountId, TransactionCategory category, BigDecimal amount, String currencyCode, BudgetFrequency frequency, boolean repeat, LocalDate startDate, boolean active, BigDecimal spent) {
         this.id = id;
         this.accountId = accountId;
         this.category = category;
@@ -27,6 +28,7 @@ public class BudgetResponse {
         this.repeat = repeat;
         this.startDate = startDate;
         this.active = active;
+        this.spent = spent;
     }
 
     public Long getId() { return id; }
@@ -38,4 +40,5 @@ public class BudgetResponse {
     public boolean isRepeat() { return repeat; }
     public LocalDate getStartDate() { return startDate; }
     public boolean isActive() { return active; }
+    public BigDecimal getSpent() { return spent; }
 }

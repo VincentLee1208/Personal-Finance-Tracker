@@ -97,7 +97,7 @@ public class CurrencyService {
         CurrencyRate toRate = rates.findByCurrencyCodeAndDateFetched(to, dateToUse)
             .orElseThrow(() -> new RuntimeException("No rate for " + to));
 
-        BigDecimal amountInCAD = amount.multiply(fromRate.getCurrencyRate());
-        return amountInCAD.divide(toRate.getCurrencyRate(), 2, RoundingMode.HALF_UP);
+        BigDecimal amountInCAD = amount.divide(fromRate.getCurrencyRate(), 2, RoundingMode.HALF_UP);
+        return amountInCAD.multiply(toRate.getCurrencyRate());
     }
 }
